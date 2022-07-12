@@ -1,8 +1,12 @@
-// Code last modified 2021-01-03
+/*
+Code licenced under GNU GPL Version 3
+https://github.com/TranquilloCosta/Infinity_mirror_sk9822_x52
+Code last modified 2021-01-03
+*/
 
 /*
 Infinity mirror based on Ikea Ribba picture frame.
-Code optimized for 16 Mhz Arduino (nano).
+Code optimized for ATmega328P Arduino (nano) in 16 Mhz mode.
 Assembly: Diode between Arduino and 5V DC. 47uF Capacitor between Arduino and IR receiver VS1838B.
 52x SK9822 RGB LEDs stripe arrangement shematic (BACK VIEW):
               (MIRROR TOP)
