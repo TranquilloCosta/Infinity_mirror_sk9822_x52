@@ -40,6 +40,33 @@ Assembly: Diode between Arduino and 5V DC. 47uF Capacitor between Arduino and IR
 |
 └-□--□--□--□--□--□--□--□--□--□--□--□--□--END (LED 52)
              (MIRROR BOTTOM)
+
+Samsung AA59-00786A TV IR remote control buttons:
+
+Power: On / off (standby)
+Digits: Animations 1-9
+0: Play all animations
+Vol+-: Brightness (press "pause")
+Up/down: Color tone adjustment
+Left/right: Saturisation adjustment
+Red/green/yellow/blue: Plain color
+3D: Plain white
+Play/pause: Freeze / resume animation
+FFW/FRW: Pattern rotation (press "pause")
+
+Animations loops:
+   
+1: «Color splashes»
+2:  Random colors slow
+3:  Random colors fast
+4: «Color bars» slow
+5: «Color bars» fast
+6: «Rocket start»
+7:  Color wheel
+8: «Wobbling bars»
+9:  RGB color change
+0:  Play all Animations
+*/
 */
 
 #include <IRremote.h>
