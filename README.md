@@ -1,10 +1,11 @@
 # Infinity_mirror_sk9822_x52
-IR remote controlled led driver with ten different static and animated modes. For decoration or lighting.
+
+<b>Arduino based led driver with 10 different modes. For decoration or lighting.</b>  
+
+IR remote controlled led controller with ten different static and animated modes. For decoration or lighting.
 
 Please note: Code available for free usage under under GNU GPL Version 3 licence.
 https://github.com/TranquilloCosta/Infinity_mirror_sk9822_x52
-
-Arduino based led driver with 10 different modes. For decoration or lighting. 
 
 <b>Code usage example:</b>
 
@@ -18,9 +19,9 @@ Infinity mirror based on Ikea Ribba picture frame. Inspired by https://www.instr
 
 ![alt text](https://github.com/TranquilloCosta/Infinity_mirror_sk9822_x52/blob/main/shematic.jpg?raw=true)
 
-Notes: No power injection necessary. No noticeable voltage drop over 52 LEDs.  
+<b>Notes</b>: No power injection necessary. No noticeable voltage drop over 52 LEDs.  
   
-IR Remote control buttons (Samsung AA59-00786A TV remote control):  
+<b>IR Remote control buttons (Samsung AA59-00786A TV remote control)</b>:  
   
 Power: On / off (standby)  
 Digits: Animations 1-9  
@@ -33,7 +34,7 @@ Red/green/yellow/blue: Plain color
 Play/pause: Freeze / resume animation  
 FFW/FRW: Pattern rotation (press "pause")  
   
-Animations loops:  
+<b>Animations loops</b>:  
   
 1: «Color splashes»  
 2:  Random colors slow  
@@ -46,7 +47,7 @@ Animations loops:
 9:  RGB color change  
 0:  Play all Animations  
   
-Infinity mirror specification:  
+<b>Infinity mirror specification</b>:  
   
 Input voltage: 5V DC  
 Max. peak current: 3‘150 mA  
