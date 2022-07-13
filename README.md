@@ -6,7 +6,7 @@ https://github.com/TranquilloCosta/Infinity_mirror_sk9822_x52
 
 Arduino based led driver with 10 different modes. For decoration or lighting. 
 
-Code usage example:
+<b>Code usage example:</b>
 
 Infinity mirror based on Ikea Ribba picture frame. Inspired by https://www.instructables.com/IKEA-Infinity-Mirror/
 
