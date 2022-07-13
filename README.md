@@ -18,37 +18,37 @@ Infinity mirror based on Ikea Ribba picture frame. Inspired by https://www.instr
 
 ![alt text](https://github.com/TranquilloCosta/Infinity_mirror_sk9822_x52/blob/main/shematic.jpg?raw=true)
 
-Notes: No power injection necessary. No noticeable voltage drop over 52 LEDs.
-
-IR Remote control buttons (Samsung AA59-00786A TV remote control):
-
-Power: On / off (standby)__  
-Digits: Animations 1-9
-0: Play all animations
-Vol+-: Brightness (press "pause")
-Up/down: Color tone adjustment
-Left/right: Saturisation adjustment
-Red/green/yellow/blue: Plain color
-3D: Plain white
-Play/pause: Freeze / resume animation
-FFW/FRW: Pattern rotation (press "pause")
-
-Animations loops:
-   
-1: «Color splashes»
-2:  Random colors slow
-3:  Random colors fast
-4: «Color bars» slow
-5: «Color bars» fast
-6: «Rocket start»
-7:  Color wheel
-8: «Wobbling bars»
-9:  RGB color change
-0:  Play all Animations
-
-Infinity mirror specification:
-
-Input voltage: 5V DC
-Max. peak current: 3‘150 mA
-Max. peak power: 15.75 W
-Standby power: 0.36 W
+Notes: No power injection necessary. No noticeable voltage drop over 52 LEDs.  
+  
+IR Remote control buttons (Samsung AA59-00786A TV remote control):  
+  
+Power: On / off (standby)  
+Digits: Animations 1-9  
+0: Play all animations  
+Vol+-: Brightness (press "pause")  
+Up/down: Color tone adjustment  
+Left/right: Saturisation adjustment  
+Red/green/yellow/blue: Plain color  
+3D: Plain white  
+Play/pause: Freeze / resume animation  
+FFW/FRW: Pattern rotation (press "pause")  
+  
+Animations loops:  
+  
+1: «Color splashes»  
+2:  Random colors slow  
+3:  Random colors fast  
+4: «Color bars» slow  
+5: «Color bars» fast  
+6: «Rocket start»  
+7:  Color wheel  
+8: «Wobbling bars»  
+9:  RGB color change  
+0:  Play all Animations  
+  
+Infinity mirror specification:  
+  
+Input voltage: 5V DC  
+Max. peak current: 3‘150 mA  
+Max. peak power: 15.75 W  
+Standby power: 0.36 W  
