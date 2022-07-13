@@ -16,38 +16,8 @@ Infinity mirror based on Ikea Ribba picture frame. Inspired by https://www.instr
 
 52x SK9822 RGB LEDs stripe arrangement shematic (BACK VIEW):
 
-              (MIRROR TOP)
-+-?--?--?--?--?--?--?--?--?--?--?--?--?-+
-|                                       |
-?                                       ? (LED 13)
-|                                       |
-?                                       ? (LED 12)
-|                                       |
-?                                       ? (LED 11)
-|                                       |
-?                                       ? (LED 10)
-|                                       |
-?                                       ? (LED 9)
-|                                       |
-?                                       ? (LED 8)
-|                                       |
-?                                       ? (LED 7)  (MIRROR LEFT)
-|                                       |
-?                                       ? (LED 6)
-|                                       |
-?                                       ? (LED 5)
-|                                       |
-?                                       ? (LED 4)
-|                                       |
-?                                       ? (LED 3)
-|                                       |
-?                                       ? (LED 2)
-|                                       |
-?                                       ? (LED 1)--DATA/CLOCK/5V(3A)/GND
-|
-+-?--?--?--?--?--?--?--?--?--?--?--?--?--END (LED 52)
-             (MIRROR BOTTOM)
-			 
+![alt text](https://github.com/[username]/[reponame]/blob/[branch]/shematic.jpg?raw=true)
+
 Notes: No power injection necessary. No noticeable voltage drop over 52 LEDs.
 
 IR Remote control buttons (Samsung AA59-00786A TV remote control):
