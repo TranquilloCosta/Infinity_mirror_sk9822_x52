@@ -19,7 +19,7 @@ Infinity mirror based on Ikea Ribba picture frame. Inspired by https://www.instr
 
 ![alt text](https://github.com/TranquilloCosta/Infinity_mirror_sk9822_x52/blob/main/shematic.jpg?raw=true)
 
-<b>Notes</b>: No power injection necessary. No noticeable voltage drop over 52 LEDs.  
+<b>Note</b>: No power injection necessary. No noticeable voltage drop over 52 LEDs.  
   
 <b>IR Remote control buttons (Samsung AA59-00786A TV remote control)</b>:  
   
