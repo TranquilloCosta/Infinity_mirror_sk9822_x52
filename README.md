@@ -22,7 +22,7 @@ Notes: No power injection necessary. No noticeable voltage drop over 52 LEDs.
 
 IR Remote control buttons (Samsung AA59-00786A TV remote control):
 
-Power: On / off (standby)
+Power: On / off (standby)__  
 Digits: Animations 1-9
 0: Play all animations
 Vol+-: Brightness (press "pause")
