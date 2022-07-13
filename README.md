@@ -16,7 +16,7 @@ Infinity mirror based on Ikea Ribba picture frame. Inspired by https://www.instr
 
 52x SK9822 RGB LEDs stripe arrangement shematic (BACK VIEW):
 
-![alt text](https://github.com/TranquilloCosta/Infinity_mirror_sk9822_x52/shematic.jpg?raw=true)
+![alt text]([https://github.com/TranquilloCosta/Infinity_mirror_sk9822_x52/shematic.jpg](https://github.com/TranquilloCosta/Infinity_mirror_sk9822_x52/blob/main/shematic.jpg)?raw=true)
 
 Notes: No power injection necessary. No noticeable voltage drop over 52 LEDs.
 
