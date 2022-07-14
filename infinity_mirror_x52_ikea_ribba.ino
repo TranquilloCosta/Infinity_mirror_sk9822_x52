@@ -1,7 +1,8 @@
 /*
 Code licenced under GNU GPL Version 3
 https://github.com/TranquilloCosta/Infinity_mirror_sk9822_x52
-Code last modified 2021-01-03
+2021-01-03 code last modified
+2022-07-14 minor changes: millis() rollover problem solved (IR receiver loop freezing after 49.7 days standby time)
 */
 
 /*
@@ -9,37 +10,38 @@ Infinity mirror based on Ikea Ribba picture frame.
 Code optimized for ATmega328P Arduino (nano) in 16 Mhz mode.
 Assembly: Diode between Arduino and 5V DC. 47uF Capacitor between Arduino and IR receiver VS1838B.
 52x SK9822 RGB LEDs stripe arrangement shematic (BACK VIEW):
-              (MIRROR TOP)
-┌-□--□--□--□--□--□--□--□--□--□--□--□--□-┐
-|                                       |
-□                                       □ (LED 13)
-|                                       |
-□                                       □ (LED 12)
-|                                       |
-□                                       □ (LED 11)
-|                                       |
-□                                       □ (LED 10)
-|                                       |
-□                                       □ (LED 9)
-|                                       |
-□                                       □ (LED 8)
-|                                       |
-□                                       □ (LED 7)  (MIRROR LEFT)
-|                                       |
-□                                       □ (LED 6)
-|                                       |
-□                                       □ (LED 5)
-|                                       |
-□                                       □ (LED 4)
-|                                       |
-□                                       □ (LED 3)
-|                                       |
-□                                       □ (LED 2)
-|                                       |
-□                                       □ (LED 1)--DATA IN
+
+                     (MIRROR TOP)
++--□---□---□---□---□---□---□---□---□---□---□---□---□--+
+|                                                     |
+□                                                     □ (LED 13)
+|                                                     |
+□                                                     □ (LED 12)
+|                                                     |
+□                                                     □ (LED 11)
+|                                                     |
+□                                                     □ (LED 10)
+|                                                     |
+□                                                     □ (LED  9)
+|                                                     |
+□                                                     □ (LED  8)
+|                                                     |
+□                                                     □ (LED  7)  (MIRROR LEFT)
+|                                                     |
+□                                                     □ (LED  6)
+|                                                     |
+□                                                     □ (LED  5)
+|                                                     |
+□                                                     □ (LED  4)
+|                                                     |
+□                                                     □ (LED  3)
+|                                                     |
+□                                                     □ (LED  2)
+|                                                     |
+□                                                     □ (LED  1)--DATA/CLOCK/5V(3A)/GND
 |
-└-□--□--□--□--□--□--□--□--□--□--□--□--□--END (LED 52)
-             (MIRROR BOTTOM)
++--□---□---□---□---□---□---□---□---□---□---□---□---□--- (LED 52) 5V(3A)/GND
+                    (MIRROR BOTTOM)
 
 Samsung AA59-00786A TV IR remote control buttons:
 
@@ -340,7 +342,7 @@ void setup() {
 void loop() {
 
    
-  if ( millis() > (resume_time + 300) )
+  if ( ( millis() - resume_time ) > 300) )
   {
     if (overrun==true)
     {
@@ -822,9 +824,9 @@ void loop() {
 void read_ir (int delay)
 {
   decode_status = false;
-  while (millis() < start_time + delay)
+  while ( ( millis() - start_time ) < delay )
   {
-    if ( millis() > (resume_time + 300) )
+    if ( ( millis() - resume_time ) > 300 )
     {
       if ( irrecv.decode(&results) )
       {
