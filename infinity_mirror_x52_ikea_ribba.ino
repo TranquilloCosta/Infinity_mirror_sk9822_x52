@@ -67,8 +67,7 @@ Animations loops:
 7:  Color wheel
 8: «Wobbling bars»
 9:  RGB color change
-0:  Play all Animations
-*/
+0:  Play all animations
 */
 
 #include <IRremote.h>
@@ -341,8 +340,7 @@ void setup() {
 
 void loop() {
 
-   
-  if ( ( millis() - resume_time ) > 300) )
+  if ( ( millis() - resume_time ) > 300 )
   {
     if (overrun==true)
     {
