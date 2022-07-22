@@ -3,6 +3,7 @@ Code licenced under GNU GPL Version 3
 https://github.com/TranquilloCosta/Infinity_mirror_sk9822_x52
 2021-01-03 code last modified
 2022-07-14 minor changes: millis() rollover problem solved (IR receiver loop freezing after 49.7 days standby time)
+2022-07-22 minor fixes: Program starts with leds on a dimmed brightness. Animations can run at dimmed brightness, that can be adjusted in "Pause" state.
 */
 
 /*
@@ -233,8 +234,6 @@ Adafruit_DotStar strip(NUMPIXELS, DATAPIN, CLOCKPIN, DOTSTAR_BRG);
   16,
   29,
   51};
-
-
 
   const uint32_t leds_random_sort_x12[] PROGMEM = {1,
   5,
@@ -806,13 +805,13 @@ void loop() {
   
 
  
-// GRÜN
+// GREEN
 // strip.setPixelColor(x,255,0,0);
 //
-// ROT
+// RED
 // strip.setPixelColor(x,0,255,0);
 //
-// BLAU
+// BLUE
 // strip.setPixelColor(x,0,0,255); 
 
 // delay(3000);
@@ -870,6 +869,18 @@ void read_ir (int delay)
     }
     void button6()
     {
+      rocket_start();
+  
+      strip.clear();
+      strip.show();
+      strip.setBrightness(brightness1);
+  
+      decode_result = 0;
+      start_time = millis();
+      read_ir(2000);
+    }
+    void button6_()
+    {
       curbs_takeoff(0);   
       strip.clear();
       strip.show();
@@ -914,7 +925,6 @@ void read_ir (int delay)
     }
     void button0()
     {
-      strip.setBrightness(255);
       playall();
       strip.setBrightness(brightness1);
       decode_result = 0;
@@ -924,7 +934,7 @@ void read_ir (int delay)
     
 void playall() {
 // Very dimmed level White
-// 60 = 2 sekunden x 30 frames
+// 60 = 2 seconds x 30 frames
 for(int b=0;b<60;b++)
 {
   int lightness_val = pow((float)(b+1)/60,2)*15;
@@ -933,7 +943,7 @@ for(int b=0;b<60;b++)
     strip.setPixelColor(x,strip.ColorHSV(0,0,lightness_val));   
   }
   strip.show(); 
-  // 2000 / 150, total 2 sekunden
+  // 2000 / 150, total 2 seconds
   delay(33);
 }
 
@@ -976,111 +986,12 @@ for(int b=0;b<60;b++)
   strip.show(); 
   delay(666);
 
-// White
-strip.setBrightness(0);
-
-// 150 = 5 sekunden x 30 frames
-for(int b=0;b<90;b++)
-{
-  for(int x=0;x<strip.numPixels();x++)
-  {
-    strip.setPixelColor(x,255,255,255);   
-  }
-  strip.setBrightness(255*b/150);
-  strip.show(); 
-  // 5000 / 150, total 5 sekunden
-  delay(33);
-}
-
-// Fade to red  
-// 60 = 2 sekunden x 30 frames
-for(int b=0;b<60;b++)
-{
-  for(int x=0;x<strip.numPixels();x++)
-  {
-    strip.setPixelColor(x,255-255*b/60,255,255-255*b/60);   
-  }
-  strip.show(); 
-  // 2000 / 60, total 3 sekunden
-  delay(33);
-}
-
-//for(int x=0;x<strip.numPixels();x++)
-//{  
-//  strip.setPixelColor(x,255,255,255); 
-//}
-
-// Strobe, dimmed, accelerating 
-// ca 4 sekunden * 3...8 strobe light = total 20 loops 
-for(int i=0;i<25;i++)
-{
-  for(int x=0;x<strip.numPixels();x++)
-  {  
-    strip.setPixelColor(x,0,255,0); 
-  }
-  strip.setBrightness(255-255*i/25);
-  strip.show(); 
-  // 5000 / 40, total 3 sekunden
-  delay(165-150*i/25);
-  for(int x=0;x<strip.numPixels();x++)
-  {  
-    strip.setPixelColor(x,255,255,255); 
-  }
-  strip.setBrightness(90);
-  strip.show(); 
-  // Blitze immer 50ms
-  delay(165-115);
-}
-
-// 15 more loops * 8 strobes per second
-for(int i=0;i<15;i++)
-{
-  strip.setBrightness(0);
-  strip.show(); 
-  // 5000 / 40, total 3 sekunden
-  delay(165-150);
-  strip.setBrightness(90-40*i/15);
-  strip.show(); 
-  // Blitze immer 50ms
-  delay(165-115);
-}
-
-// One bright, white flash.
-// noch ein kurzer heller Blitz 0.165 Sekunden anschwellend, 0.33 Sekunden warten, 0.333 Sekunden abschwellend.
-for(int i=0;i<5;i++)
-{
-  strip.setBrightness(90+165*i/5);
-  strip.show();
-  delay(33); 
-}
-
-for(int i=0;i<10;i++)
-{
-  strip.setBrightness(255-255*i/10);
-  strip.show();
-  delay(33);  
-}
-
-  strip.setBrightness(255);
+  rocket_start();
   
   strip.clear();
   strip.show();
-  delay(666); 
+  strip.setBrightness(brightness1);
 
-curbs_takeoff(0);   
-
-  strip.clear();
-  strip.show();
-  delay(115); 
-  
-  rainbow_takeoff(10,1, 5);   
-  
-  rainbow_fadeout(10,0.25, 10);             // Flowing rainbow cycle along the whole strip
-  
-  strip.clear();
-  strip.show();
-  delay(666);
- 
   axial_blocks_x12_lite(1, 1, 0, 200, 200);
   axial_blocks_x12_lite(2, 1, 0, 30, 200);
   axial_blocks_x12_lite(25, 1, 1, 30, 30);
@@ -1102,8 +1013,8 @@ void rainbow(int wait, int rotations) {
   // Color wheel has a range of 65536 but it's OK if we roll over, so
   // just count from 0 to 5*65536. Adding 256 to firstPixelHue each time
   // means we'll make 5*65536/256 = 1280 passes through this outer loop:
-// Anzahl Umläufe ändern: 3*65536
-// += 256 erhöhen für schnellere Umläufe
+// Change the number of evolutions: 3*65536
+// increase += 256 for faster revolutions
   for(long firstPixelHue = 0; firstPixelHue < rotations*65536; firstPixelHue += 512) {
     for(int i=0; i<strip.numPixels(); i++) { // For each pixel in strip...
       // Offset pixel hue by an amount to make one full revolution of the
@@ -1128,8 +1039,8 @@ void rainbow_fadeout(int wait, float fadein, int rotations) {
   // Color wheel has a range of 65536 but it's OK if we roll over, so
   // just count from 0 to 5*65536. Adding 256 to firstPixelHue each time
   // means we'll make 5*65536/256 = 1280 passes through this outer loop:
-// Anzahl Umläufe ändern: 3*65536
-// += 256 erhöhen für schnellere Umläufe
+// Change the number of evolutions: 3*65536
+// increase += 256 for faster revolutions
   float dimm0 = 0;
   float dimm1 = 1;
   for(long firstPixelHue = 0; firstPixelHue < rotations*65536; firstPixelHue += 512) {
@@ -1162,8 +1073,8 @@ void rainbow_takeoff(int wait, float fadeout, int rotations) {
   // Color wheel has a range of 65536 but it's OK if we roll over, so
   // just count from 0 to 5*65536. Adding 256 to firstPixelHue each time
   // means we'll make 5*65536/256 = 1280 passes through this outer loop:
-// Anzahl Umläufe ändern: 3*65536
-// += 256 erhöhen für schnellere Umläufe
+// Change the number of evolutions: 3*65536
+// increase += 256 for faster revolutions
   float dimm1 = 1;
   for(long firstPixelHue = 0; firstPixelHue < rotations*65536; firstPixelHue += 512) {
     if(firstPixelHue>=((float)rotations-fadeout)*65536){
@@ -1236,7 +1147,7 @@ void curbs_takeoff(int wait) {
     }
   }
 
-  // noch 2*2 schnelle loops
+  // 2*2 more fast loops
   loops = 4;
   colors_count = (sizeof(colors_b)/sizeof(colors_b[0]));
   for(int a=0; a<loops; a++) { // number of outer loops
@@ -1263,12 +1174,12 @@ void curbs_takeoff(int wait) {
     }
   }
 
-  // noch 3*2 schnelle loops, Rot wird zu Weiss, Helligkeit abnehmend
+  // 3*2 more fast loops, red becomes white, decreasing brightness 
   loops = 6;
   colors_count = (sizeof(colors_b)/sizeof(colors_b[0]));
   counter = 0;
-  //int brightness = 255;
-  int brightness = brightness1;
+  int brightness = 255;
+  //int brightness = brightness1;
   for(int a=0; a<loops; a++) { // number of outer loops
     strip.clear(); 
     for (int b=0 ; b<colors_count; b++) { // 1x red bar 1x white bar
@@ -1279,7 +1190,7 @@ void curbs_takeoff(int wait) {
       
       for(int i=0; i<strip.numPixels()/4; i++) {
         int color_index = (b+i*8+52)%52;
-        // 312=3x104 Farben STATISCH!
+        // 312=3x104 Color STATIC!
         int color_fade = colors_b[color_index] + (255-colors_b[color_index])*counter/(312*4);
         strip.setPixelColor(i, strip.Color(color_fade , 255, color_fade)); // For each pixel on left edge...
         
@@ -1295,12 +1206,113 @@ void curbs_takeoff(int wait) {
       strip.show(); // Update strip with new contents
       int millisecs = wait +2;
       delay(millisecs);  // Pause for a moment
-      brightness = pow(1-(float)(a*colors_count+b)/(loops*colors_count),2)*brightness1;
-      //brightness = brightness * 0.999;
+      brightness = pow(1-(float)(a*colors_count+b)/(loops*colors_count),2)*brightness;
       strip.setBrightness(brightness);
     }
   }
   strip.setBrightness(255);
+}
+
+void rocket_start(){
+// White
+strip.setBrightness(0);
+
+// 150 = 5 seconds x 30 frames
+for(int b=0;b<90;b++)
+{
+  for(int x=0;x<strip.numPixels();x++)
+  {
+    strip.setPixelColor(x,255,255,255);   
+  }
+  strip.setBrightness(255*b/150);
+  strip.show(); 
+  // 5000 / 150, total 5 seconds
+  delay(33);
+}
+
+// Fade to red  
+// 60 = 2 seconds x 30 frames
+for(int b=0;b<60;b++)
+{
+  for(int x=0;x<strip.numPixels();x++)
+  {
+    strip.setPixelColor(x,255-255*b/60,255,255-255*b/60);   
+  }
+  strip.show(); 
+  // 2000 / 60, total 3 seconds
+  delay(33);
+}
+
+delay(1000);
+
+// Strobe, dimmed, accelerating 
+// ca 4 seconds * 3...8 strobe light = total 20 loops 
+for(int i=0;i<25;i++)
+{
+  for(int x=0;x<strip.numPixels();x++)
+  {  
+    strip.setPixelColor(x,0,255,0); 
+  }
+  strip.setBrightness(255-255*i/25);
+  strip.show(); 
+  // 5000 / 40, total 3 seconds
+  delay(165-150*i/25);
+  for(int x=0;x<strip.numPixels();x++)
+  {  
+    strip.setPixelColor(x,255,255,255); 
+  }
+  strip.setBrightness(90);
+  strip.show(); 
+  // Flashes. always 50ms
+  delay(165-115);
+}
+
+// 15 more loops * 8 strobes per second
+for(int i=0;i<15;i++)
+{
+  strip.setBrightness(0);
+  strip.show(); 
+  // 5000 / 40, total 3 seconds
+  delay(165-150);
+  strip.setBrightness(90-40*i/15);
+  strip.show(); 
+  // Blitze always 50ms
+  delay(165-115);
+}
+
+// One bright, white flash.
+// one more bright flash 0.165 seconds increasing, 0.33 seconds waiting, 0.333 seconds increasing.
+for(int i=0;i<5;i++)
+{
+  strip.setBrightness(90+165*i/5);
+  strip.show();
+  delay(33); 
+}
+
+for(int i=0;i<10;i++)
+{
+  strip.setBrightness(255-255*i/10);
+  strip.show();
+  delay(33);  
+}
+
+  strip.setBrightness(255);
+  
+  strip.clear();
+  strip.show();
+  delay(666); 
+
+curbs_takeoff(0);   
+
+  strip.clear();
+  strip.show();
+  delay(115); 
+  
+  rainbow_takeoff(10,1, 5);   
+  
+  rainbow_fadeout(10,0.25, 10);             // Flowing rainbow cycle along the whole strip
+
+  delay(666);
 }
 
 void wobbling_bars(int runs){
@@ -1650,10 +1662,11 @@ void random_color_splatters(int runs, bool fadeout, int wait){
     }
     if ( fadeout && b >= runs-18 ){
       dimm=pow((1-(float)(b+1-runs+18)/18),2);
-      strip.setBrightness(dimm*255);
+      strip.setBrightness(dimm*brightness1);
     }
   }
-  strip.setBrightness(255);
+  //strip.setBrightness(255);
+  strip.setBrightness(brightness1);
 }
 
 // single color random sort single pixels. Arguments: int green/red/blue (0-255), int wait [ms].
