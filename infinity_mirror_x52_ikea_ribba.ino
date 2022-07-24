@@ -3,7 +3,6 @@ Code licenced under GNU GPL Version 3
 https://github.com/TranquilloCosta/Infinity_mirror_sk9822_x52
 2021-01-03 code last modified
 2022-07-14 minor changes: millis() rollover problem solved (IR receiver loop freezing after 49.7 days standby time)
-2022-07-22 minor fixes: Program starts with leds on a dimmed brightness. Animations can run at dimmed brightness, that can be adjusted in "Pause" state.
 */
 
 /*
@@ -151,7 +150,7 @@ int current_color = 1;
 int pause = 0;
 int active = 0;
 
-Adafruit_DotStar strip(NUMPIXELS, DATAPIN, CLOCKPIN, DOTSTAR_BRG);
+Adafruit_DotStar strip(NUMPIXELS, DATAPIN, CLOCKPIN, DOTSTAR_BGR);
 
 // Colors from file raketenstart_raster_rot_weiss.xls
   const uint32_t colors_b[] = {0,
@@ -579,7 +578,7 @@ void loop() {
     strip.setBrightness(255);
     if (decode_result == button_red)
     {
-      hue1=21845; // 65536/3
+      hue1=0;
       for(int x=0;x<strip.numPixels();x++)
       {
         strip.setPixelColor(x,strip.ColorHSV(hue1,sat1,val1));
@@ -588,7 +587,7 @@ void loop() {
     }
     if (decode_result == button_green)
     {
-      hue1=0;
+      hue1=21845; // 65536/3
       for(int x=0;x<strip.numPixels();x++)
       {
         strip.setPixelColor(x,strip.ColorHSV(hue1,sat1,val1));
@@ -879,19 +878,6 @@ void read_ir (int delay)
       start_time = millis();
       read_ir(2000);
     }
-    void button6_()
-    {
-      curbs_takeoff(0);   
-      strip.clear();
-      strip.show();
-      delay(115); 
-      strip.setBrightness(brightness1);
-      rainbow_takeoff(10,0.5,3);   
-      rainbow_fadeout(10,0.25, 3);
-      decode_result = 0;
-      start_time = millis();
-      read_ir(2000);
-    }
     void button7()
     {
       rainbow(10, 1);
@@ -967,15 +953,13 @@ for(int b=0;b<60;b++)
   // white random sort single pixels
   single_pixels_single_color(127,127,127,50); 
   delay(500);
-
-// SHOULD CHANGE DOTSTAR_BGR to DOTSTAR BRG AND MODIFY/CORRECT SOME PARTS OF THE PROGRAM.  
+  
   // red color random sort single pixels
-   single_pixels_single_color(0,255,0,50);
+   single_pixels_single_color(255,0,0,50);
   delay(500);
-
-// SHOULD CHANGE DOTSTAR_BGR to DOTSTAR BRG AND MODIFY/CORRECT SOME PARTS OF THE PROGRAM.  
+ 
   // green color random sort single pixels
-  single_pixels_single_color(255,0,0,50);
+  single_pixels_single_color(0,255,0,50);
   delay(500);
   
   // blue color random sort single pixels
@@ -1129,10 +1113,10 @@ void curbs_takeoff(int wait) {
       
       for(int i=0; i<strip.numPixels()/4; i++) {
         int color_index = (b+i*8+52)%52;
-        strip.setPixelColor(i, strip.Color(colors_b[color_index], 255, colors_b[color_index])); // For each pixel on left edge...
+        strip.setPixelColor(i, strip.Color(255, colors_b[color_index], colors_b[color_index])); // For each pixel on left edge...
         
         int i2 = strip.numPixels()*3/4 - i - 1;
-        strip.setPixelColor(i2, strip.Color(colors_b[color_index], 255, colors_b[color_index])); // For each pixel on right edge...
+        strip.setPixelColor(i2, strip.Color(255, colors_b[color_index], colors_b[color_index])); // For each pixel on right edge...
       }
       for(int i=strip.numPixels()/4; i<strip.numPixels()/2; i++) { // upper edge 
         strip.setPixelColor(i, strip.getPixelColor(12));
@@ -1156,10 +1140,10 @@ void curbs_takeoff(int wait) {
             
       for(int i=0; i<strip.numPixels()/4; i++) {
         int color_index = (b+i*8+52)%52;
-        strip.setPixelColor(i, strip.Color(colors_b[color_index], 255, colors_b[color_index])); // For each pixel on left edge...
+        strip.setPixelColor(i, strip.Color(255, colors_b[color_index], colors_b[color_index])); // For each pixel on left edge...
         
         int i2 = strip.numPixels()*3/4 - i - 1;
-        strip.setPixelColor(i2, strip.Color(colors_b[color_index], 255, colors_b[color_index])); // For each pixel on right edge...
+        strip.setPixelColor(i2, strip.Color(255, colors_b[color_index], colors_b[color_index])); // For each pixel on right edge...
       }
       for(int i=strip.numPixels()/4; i<strip.numPixels()/2; i++) { // upper edge
         strip.setPixelColor(i, strip.getPixelColor(12));
@@ -1192,10 +1176,10 @@ void curbs_takeoff(int wait) {
         int color_index = (b+i*8+52)%52;
         // 312=3x104 Color STATIC!
         int color_fade = colors_b[color_index] + (255-colors_b[color_index])*counter/(312*4);
-        strip.setPixelColor(i, strip.Color(color_fade , 255, color_fade)); // For each pixel on left edge...
+        strip.setPixelColor(i, strip.Color(255, color_fade, color_fade)); // For each pixel on left edge...
         
         int i2 = strip.numPixels()*3/4 - i - 1;
-        strip.setPixelColor(i2, strip.Color(color_fade, 255, color_fade)); // For each pixel on right edge...
+        strip.setPixelColor(i2, strip.Color(255, color_fade, color_fade)); // For each pixel on right edge...
       }
       for(int i=strip.numPixels()/4; i<strip.numPixels()/2; i++) { // upper edge
         strip.setPixelColor(i, strip.getPixelColor(12));
@@ -1206,13 +1190,14 @@ void curbs_takeoff(int wait) {
       strip.show(); // Update strip with new contents
       int millisecs = wait +2;
       delay(millisecs);  // Pause for a moment
-      brightness = pow(1-(float)(a*colors_count+b)/(loops*colors_count),2)*brightness;
-      strip.setBrightness(brightness);
+      int brightness_temp_ = pow(1-(float)(a*colors_count+b)/(loops*colors_count),2)*brightness;
+      strip.setBrightness(brightness_temp_);
     }
   }
   strip.setBrightness(255);
 }
 
+// accelerating rocket effect that looks rather nice with painted plywood rocket attached inside the infinity mirror
 void rocket_start(){
 // White
 strip.setBrightness(0);
@@ -1236,7 +1221,7 @@ for(int b=0;b<60;b++)
 {
   for(int x=0;x<strip.numPixels();x++)
   {
-    strip.setPixelColor(x,255-255*b/60,255,255-255*b/60);   
+    strip.setPixelColor(x, 255, 255-255*b/60,255-255*b/60);   
   }
   strip.show(); 
   // 2000 / 60, total 3 seconds
@@ -1251,7 +1236,7 @@ for(int i=0;i<25;i++)
 {
   for(int x=0;x<strip.numPixels();x++)
   {  
-    strip.setPixelColor(x,0,255,0); 
+    strip.setPixelColor(x,255,0,0); 
   }
   strip.setBrightness(255-255*i/25);
   strip.show(); 
@@ -1306,7 +1291,7 @@ curbs_takeoff(0);
 
   strip.clear();
   strip.show();
-  delay(115); 
+  delay(1000); 
   
   rainbow_takeoff(10,1, 5);   
   
@@ -1670,7 +1655,7 @@ void random_color_splatters(int runs, bool fadeout, int wait){
 }
 
 // single color random sort single pixels. Arguments: int green/red/blue (0-255), int wait [ms].
-void single_pixels_single_color(int green, int red, int blue, int wait){
+void single_pixels_single_color(int red, int green, int blue, int wait){
  for(int x=0;x<strip.numPixels();x++)
   {
     int led_number = pgm_read_word(leds_random_sort_x52 + x);
